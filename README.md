@@ -14,7 +14,7 @@ Navigate to the species folder.
 
 Here you will find a spreadsheet (.xlsx) that contains data for each class in the example. The formating and location of these files is important since the CR code reads in the data based on location in the spreadsheet. There should be one tab for each season in the annual cycle. For each season, Node Attributes are at the top of the spreadsheet, followed by Path Survival rates and then Path Transitions.  
 
-Also within each folder is the Run<species name>.R code. This is the code that should be sourced to get the CR results. The User Defined Data in this code should match what is provided in the spreadsheets.
+Also within each folder is the Run*species name*.R code. This is the code that should be sourced to get the CR results. The User Defined Data in this code should match what is provided in the spreadsheets.
  
  
  
