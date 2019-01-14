@@ -1,7 +1,7 @@
 # GeneralizedCR
 Based on the generalized CR formulation from: 
 "Quantifying source and sink habitats and pathways in spatially structured populations: a generalized modelling approach." 
- - Christine Sample, Joanna A. Bieri, Benjamin Allen, Yulia Dementieva, Alyssa Carson, Connor Higgins, Sadie Piatt, Shirley Qiu, Summern Stafford, Brady J. Mattsson, Darius Semmens, Wayne E. Thogmartin, Jay E. Diffendorfer
+ - Christine Sample, Joanna A. Bieri, Benjamin Allen, Yulia Dementieva, Alyssa Carson, Connor Higgins, Sadie Piatt, Shirley Qiu, Summer Stafford, Brady J. Mattsson, Darius Semmens, Wayne E. Thogmartin, Jay E. Diffendorfer
  
 To run the code for any of the case studies:
 
