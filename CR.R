@@ -142,13 +142,13 @@ for (SN in 1:seasons) {
   s_update[[SN]] <- list()
   for (i in 1:NUMNET){
     type <- i
-    p_update[[SN]][[i]] <- PATH_ATTRIBUTES[[i]][[SN]][[2]]   
-    s_update[[SN]][[i]] <- PATH_ATTRIBUTES[[i]][[SN]][[1]]
+    p_update[[SN]][[i]] <- PATH_ATTRIBUTES[[i]][[SN]][[1]]   
+    s_update[[SN]][[i]] <- PATH_ATTRIBUTES[[i]][[SN]][[2]]
   }
 rm(i)
 
 
-## MATRICEES NEEDED FOR UPDATE ##
+## MATRICES NEEDED FOR UPDATE ##
 ## F Block Diagonal ##
 FBLOCK <- matrix(0,nrow = NUMNET*num_nodes, ncol = NUMNET*num_nodes)
 for (i in 1:num_nodes){
@@ -180,6 +180,7 @@ CR <- matrix(0,nrow = nrow(AMATRIX), ncol = seasons) #Cr values for each class/n
 CRweight <- matrix(0,nrow = nrow(AMATRIX), ncol = seasons) #Cr*Nr values for each class/node/season 
 ONES <- matrix(1,nrow = nrow(AMATRIX), ncol = 1)
 CRt <- matrix(0,nrow = num_nodes, ncol = seasons) #Population weighted CR values for each node/season
+CRs <- matrix(0,nrow = num_nodes, ncol = 1) #Population weighted CR values for each node/season
 #Choose each season as a focal season
 for (SN in 1:seasons){
   CRtemp <- diag(nrow(AMATRIX))
@@ -200,8 +201,16 @@ for (SN in 1:seasons){
 }
 
 ## Seasonal Population Weighted CR values
-CRs <- matrix(rowSums(CRt*POPnode)/rowSums(POPnode),nrow=num_nodes,ncol=1)
-
+for(i in 1:num_nodes){
+  if(seasons==1){
+    if(POPnode[[i]]!=0){
+      CRs[[i]] <- CRt[[i]]}
+    }
+  else{
+    if(rowSums(POPnode)[[i]]!=0){
+      CRs[[i]] <- (rowSums(CRt*POPnode)[[i]])/rowSums(POPnode)[[i]]}
+  }
+}
 
 ## Name columns and rows
 SEASONNAMES <- c()
@@ -244,8 +253,11 @@ for (i in 1:num_nodes){
   if(NUMNET==1){
     WRt[i,] <- WR[i,]
   }
-  else{
-    WRt[i,] <- colSums(WR[((i-1)*NUMNET+1):(i*NUMNET),])
+  else{  
+    if (seasons==1) {
+      WRt[i,] <- sum(WR[((i-1)*NUMNET+1):(i*NUMNET),])}
+    else{
+      WRt[i,] <- colSums(WR[((i-1)*NUMNET+1):(i*NUMNET),])}
   }
 }
 
@@ -282,7 +294,7 @@ for (SN in 1:seasons){
       # Consider each class
       for (CLS in 1:NUMNET){
         count <- count +1
-        PRD <- PATH_ATTRIBUTES[[CLS]][[SN]][[2]][r,d] # CLS=class, SN=season, 2=transition prob, [r,d]= from node r to d
+        PRD <- PATH_ATTRIBUTES[[CLS]][[SN]][[1]][r,d] # CLS=class, SN=season, 1=transition prob, [r,d]= from node r to d
         # only claculate for paths that can be used during the focal season
         if(PRD!=0){
           Hc <- matrix(0,nrow=NUMNET,ncol=NUMNET)
